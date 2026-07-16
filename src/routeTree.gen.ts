@@ -16,6 +16,10 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppSensorsRouteImport } from './routes/app.sensors'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppFarmsRouteImport } from './routes/app.farms'
+import { Route as AppControlsRouteImport } from './routes/app.controls'
+import { Route as AppAiRouteImport } from './routes/app.ai'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -52,6 +56,26 @@ const AppSensorsRoute = AppSensorsRouteImport.update({
   path: '/sensors',
   getParentRoute: () => AppRoute,
 } as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFarmsRoute = AppFarmsRouteImport.update({
+  id: '/farms',
+  path: '/farms',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppControlsRoute = AppControlsRouteImport.update({
+  id: '/controls',
+  path: '/controls',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,6 +83,10 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/controls': typeof AppControlsRoute
+  '/app/farms': typeof AppFarmsRoute
+  '/app/notifications': typeof AppNotificationsRoute
   '/app/sensors': typeof AppSensorsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -67,6 +95,10 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/controls': typeof AppControlsRoute
+  '/app/farms': typeof AppFarmsRoute
+  '/app/notifications': typeof AppNotificationsRoute
   '/app/sensors': typeof AppSensorsRoute
   '/app': typeof AppIndexRoute
 }
@@ -77,6 +109,10 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/controls': typeof AppControlsRoute
+  '/app/farms': typeof AppFarmsRoute
+  '/app/notifications': typeof AppNotificationsRoute
   '/app/sensors': typeof AppSensorsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -88,6 +124,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/app/ai'
+    | '/app/controls'
+    | '/app/farms'
+    | '/app/notifications'
     | '/app/sensors'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +136,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/app/ai'
+    | '/app/controls'
+    | '/app/farms'
+    | '/app/notifications'
     | '/app/sensors'
     | '/app'
   id:
@@ -105,6 +149,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/app/ai'
+    | '/app/controls'
+    | '/app/farms'
+    | '/app/notifications'
     | '/app/sensors'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -168,15 +216,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSensorsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/farms': {
+      id: '/app/farms'
+      path: '/farms'
+      fullPath: '/app/farms'
+      preLoaderRoute: typeof AppFarmsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/controls': {
+      id: '/app/controls'
+      path: '/controls'
+      fullPath: '/app/controls'
+      preLoaderRoute: typeof AppControlsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/ai': {
+      id: '/app/ai'
+      path: '/ai'
+      fullPath: '/app/ai'
+      preLoaderRoute: typeof AppAiRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAiRoute: typeof AppAiRoute
+  AppControlsRoute: typeof AppControlsRoute
+  AppFarmsRoute: typeof AppFarmsRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
   AppSensorsRoute: typeof AppSensorsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAiRoute: AppAiRoute,
+  AppControlsRoute: AppControlsRoute,
+  AppFarmsRoute: AppFarmsRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
   AppSensorsRoute: AppSensorsRoute,
   AppIndexRoute: AppIndexRoute,
 }

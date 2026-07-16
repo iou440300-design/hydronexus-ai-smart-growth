@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/app/TopBar";
 import { useFarm } from "@/lib/farm-store";
 import { Switch } from "@/components/ui/switch";
-import { Droplets, FlaskConical, Lightbulb, Fan, ValveIcon, Zap, PowerOff, Clock } from "lucide-react";
+import { Droplets, FlaskConical, Lightbulb, Fan, Zap, PowerOff, Clock } from "lucide-react";
 import type { DeviceState } from "@/lib/hardware-service";
 import { toast } from "sonner";
 
