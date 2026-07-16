@@ -2,13 +2,21 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Home, Activity, Sparkles, SlidersHorizontal, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const items = [
+type NavItem = {
+  to: "/app" | "/app/sensors" | "/app/ai" | "/app/controls" | "/app/more";
+  label: string;
+  icon: typeof Home;
+  exact?: boolean;
+  primary?: boolean;
+};
+
+const items: NavItem[] = [
   { to: "/app", label: "Home", icon: Home, exact: true },
   { to: "/app/sensors", label: "Sensors", icon: Activity },
   { to: "/app/ai", label: "AI", icon: Sparkles, primary: true },
   { to: "/app/controls", label: "Controls", icon: SlidersHorizontal },
   { to: "/app/more", label: "More", icon: Menu },
-] as const;
+];
 
 export function BottomNav() {
   const { pathname } = useLocation();
