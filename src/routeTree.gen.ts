@@ -9,38 +9,300 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppShareholderRouteImport } from './routes/app.shareholder'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppSensorsRouteImport } from './routes/app.sensors'
+import { Route as AppReportsRouteImport } from './routes/app.reports'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppMoreRouteImport } from './routes/app.more'
+import { Route as AppFarmsRouteImport } from './routes/app.farms'
+import { Route as AppDemoRouteImport } from './routes/app.demo'
+import { Route as AppCropsRouteImport } from './routes/app.crops'
+import { Route as AppControlsRouteImport } from './routes/app.controls'
+import { Route as AppCameraRouteImport } from './routes/app.camera'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppAiRouteImport } from './routes/app.ai'
+import { Route as AppCropsSlugRouteImport } from './routes/app.crops.$slug'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppShareholderRoute = AppShareholderRouteImport.update({
+  id: '/shareholder',
+  path: '/shareholder',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSensorsRoute = AppSensorsRouteImport.update({
+  id: '/sensors',
+  path: '/sensors',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoreRoute = AppMoreRouteImport.update({
+  id: '/more',
+  path: '/more',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFarmsRoute = AppFarmsRouteImport.update({
+  id: '/farms',
+  path: '/farms',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDemoRoute = AppDemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCropsRoute = AppCropsRouteImport.update({
+  id: '/crops',
+  path: '/crops',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppControlsRoute = AppControlsRouteImport.update({
+  id: '/controls',
+  path: '/controls',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCameraRoute = AppCameraRouteImport.update({
+  id: '/camera',
+  path: '/camera',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCropsSlugRoute = AppCropsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AppCropsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/camera': typeof AppCameraRoute
+  '/app/controls': typeof AppControlsRoute
+  '/app/crops': typeof AppCropsRouteWithChildren
+  '/app/demo': typeof AppDemoRoute
+  '/app/farms': typeof AppFarmsRoute
+  '/app/more': typeof AppMoreRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/reports': typeof AppReportsRoute
+  '/app/sensors': typeof AppSensorsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/shareholder': typeof AppShareholderRoute
+  '/app/': typeof AppIndexRoute
+  '/app/crops/$slug': typeof AppCropsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/camera': typeof AppCameraRoute
+  '/app/controls': typeof AppControlsRoute
+  '/app/crops': typeof AppCropsRouteWithChildren
+  '/app/demo': typeof AppDemoRoute
+  '/app/farms': typeof AppFarmsRoute
+  '/app/more': typeof AppMoreRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/reports': typeof AppReportsRoute
+  '/app/sensors': typeof AppSensorsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/shareholder': typeof AppShareholderRoute
+  '/app': typeof AppIndexRoute
+  '/app/crops/$slug': typeof AppCropsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/camera': typeof AppCameraRoute
+  '/app/controls': typeof AppControlsRoute
+  '/app/crops': typeof AppCropsRouteWithChildren
+  '/app/demo': typeof AppDemoRoute
+  '/app/farms': typeof AppFarmsRoute
+  '/app/more': typeof AppMoreRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/reports': typeof AppReportsRoute
+  '/app/sensors': typeof AppSensorsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/shareholder': typeof AppShareholderRoute
+  '/app/': typeof AppIndexRoute
+  '/app/crops/$slug': typeof AppCropsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/ai'
+    | '/app/analytics'
+    | '/app/camera'
+    | '/app/controls'
+    | '/app/crops'
+    | '/app/demo'
+    | '/app/farms'
+    | '/app/more'
+    | '/app/notifications'
+    | '/app/reports'
+    | '/app/sensors'
+    | '/app/settings'
+    | '/app/shareholder'
+    | '/app/'
+    | '/app/crops/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/ai'
+    | '/app/analytics'
+    | '/app/camera'
+    | '/app/controls'
+    | '/app/crops'
+    | '/app/demo'
+    | '/app/farms'
+    | '/app/more'
+    | '/app/notifications'
+    | '/app/reports'
+    | '/app/sensors'
+    | '/app/settings'
+    | '/app/shareholder'
+    | '/app'
+    | '/app/crops/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/ai'
+    | '/app/analytics'
+    | '/app/camera'
+    | '/app/controls'
+    | '/app/crops'
+    | '/app/demo'
+    | '/app/farms'
+    | '/app/more'
+    | '/app/notifications'
+    | '/app/reports'
+    | '/app/sensors'
+    | '/app/settings'
+    | '/app/shareholder'
+    | '/app/'
+    | '/app/crops/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +310,169 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/shareholder': {
+      id: '/app/shareholder'
+      path: '/shareholder'
+      fullPath: '/app/shareholder'
+      preLoaderRoute: typeof AppShareholderRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/sensors': {
+      id: '/app/sensors'
+      path: '/sensors'
+      fullPath: '/app/sensors'
+      preLoaderRoute: typeof AppSensorsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/reports': {
+      id: '/app/reports'
+      path: '/reports'
+      fullPath: '/app/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/more': {
+      id: '/app/more'
+      path: '/more'
+      fullPath: '/app/more'
+      preLoaderRoute: typeof AppMoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/farms': {
+      id: '/app/farms'
+      path: '/farms'
+      fullPath: '/app/farms'
+      preLoaderRoute: typeof AppFarmsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/demo': {
+      id: '/app/demo'
+      path: '/demo'
+      fullPath: '/app/demo'
+      preLoaderRoute: typeof AppDemoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/crops': {
+      id: '/app/crops'
+      path: '/crops'
+      fullPath: '/app/crops'
+      preLoaderRoute: typeof AppCropsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/controls': {
+      id: '/app/controls'
+      path: '/controls'
+      fullPath: '/app/controls'
+      preLoaderRoute: typeof AppControlsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/camera': {
+      id: '/app/camera'
+      path: '/camera'
+      fullPath: '/app/camera'
+      preLoaderRoute: typeof AppCameraRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/ai': {
+      id: '/app/ai'
+      path: '/ai'
+      fullPath: '/app/ai'
+      preLoaderRoute: typeof AppAiRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/crops/$slug': {
+      id: '/app/crops/$slug'
+      path: '/$slug'
+      fullPath: '/app/crops/$slug'
+      preLoaderRoute: typeof AppCropsSlugRouteImport
+      parentRoute: typeof AppCropsRoute
+    }
   }
 }
 
+interface AppCropsRouteChildren {
+  AppCropsSlugRoute: typeof AppCropsSlugRoute
+}
+
+const AppCropsRouteChildren: AppCropsRouteChildren = {
+  AppCropsSlugRoute: AppCropsSlugRoute,
+}
+
+const AppCropsRouteWithChildren = AppCropsRoute._addFileChildren(
+  AppCropsRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppAiRoute: typeof AppAiRoute
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppCameraRoute: typeof AppCameraRoute
+  AppControlsRoute: typeof AppControlsRoute
+  AppCropsRoute: typeof AppCropsRouteWithChildren
+  AppDemoRoute: typeof AppDemoRoute
+  AppFarmsRoute: typeof AppFarmsRoute
+  AppMoreRoute: typeof AppMoreRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppReportsRoute: typeof AppReportsRoute
+  AppSensorsRoute: typeof AppSensorsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppShareholderRoute: typeof AppShareholderRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAiRoute: AppAiRoute,
+  AppAnalyticsRoute: AppAnalyticsRoute,
+  AppCameraRoute: AppCameraRoute,
+  AppControlsRoute: AppControlsRoute,
+  AppCropsRoute: AppCropsRouteWithChildren,
+  AppDemoRoute: AppDemoRoute,
+  AppFarmsRoute: AppFarmsRoute,
+  AppMoreRoute: AppMoreRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppReportsRoute: AppReportsRoute,
+  AppSensorsRoute: AppSensorsRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppShareholderRoute: AppShareholderRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
