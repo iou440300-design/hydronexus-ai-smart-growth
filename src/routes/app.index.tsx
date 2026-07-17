@@ -58,8 +58,8 @@ function Dashboard() {
 
         {/* Tanks */}
         <section className="grid grid-cols-2 gap-3">
-          <TankCard label="Water Tank" value={sensors.waterLevel} accent="var(--chart-4)" icon={<Droplets className="h-4 w-4" />} />
-          <TankCard label="Nutrient Tank" value={sensors.nutrient} accent="var(--gold)" icon={<FlaskConical className="h-4 w-4" />} />
+          <TankCard label="Water Tank" value={sensors.waterLevel} accent="var(--chart-4)" icon={<Droplets className="h-4 w-4" />} extra={<WaterFlow active={devices.waterPump} label={`${sensors.flow.toFixed(1)} L/m`} />} />
+          <TankCard label="Nutrient Tank" value={sensors.nutrient} accent="var(--gold)" icon={<FlaskConical className="h-4 w-4" />} extra={<WaterFlow active={devices.nutrientPump} label="Dosing" />} />
         </section>
 
         {/* Systems */}
