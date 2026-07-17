@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/app/TopBar";
 import { useFarm } from "@/lib/farm-store";
-import { Sparkles, TrendingUp, Leaf, Calendar, Scale, ShieldAlert, Send } from "lucide-react";
-import { useState } from "react";
+import { Sparkles, TrendingUp, Leaf, Calendar, Scale, ShieldAlert, Send, Brain, Droplets, FlaskConical, Zap, Clock, Activity, ShieldCheck } from "lucide-react";
+import { useMemo, useState } from "react";
 import { crops } from "@/lib/crops";
 
 export const Route = createFileRoute("/app/ai")({
