@@ -176,13 +176,14 @@ function MiniStat({ label, value, icon, accent }: { label: string; value: string
   );
 }
 
-function TankCard({ label, value, accent, icon }: { label: string; value: number; accent: string; icon: React.ReactNode }) {
+function TankCard({ label, value, accent, icon, extra }: { label: string; value: number; accent: string; icon: React.ReactNode; extra?: React.ReactNode }) {
   return (
     <div className="relative overflow-hidden rounded-3xl bg-card border border-border/60 p-4 shadow-card-soft h-36">
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {icon} {label}
       </div>
       <div className="mt-2 text-3xl font-bold tabular-nums">{value.toFixed(0)}<span className="text-lg text-muted-foreground">%</span></div>
+      {extra && <div className="relative mt-2 z-10">{extra}</div>}
       <div
         className="absolute bottom-0 left-0 right-0 transition-all duration-1000"
         style={{ height: `${value}%`, background: `linear-gradient(180deg, transparent 0%, color-mix(in oklab, ${accent} 30%, transparent) 100%)` }}
