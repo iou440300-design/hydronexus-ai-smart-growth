@@ -88,6 +88,10 @@ function AI() {
           </div>
         </section>
 
+        {/* AI Intelligence grid */}
+        <IntelligenceGrid growthPct={growthPct} daysLeft={daysLeft} crop={crop} />
+
+
         {/* Recommendations */}
         <section className="space-y-2">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">AI Recommendations</h2>
