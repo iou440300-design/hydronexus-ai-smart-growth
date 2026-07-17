@@ -27,6 +27,8 @@ function Dashboard() {
     <div>
       <TopBar />
       <main className="px-4 space-y-5">
+        {/* Live hardware strip */}
+        <HardwareStatus />
         {/* Health hero */}
         <section className="relative overflow-hidden rounded-3xl bg-hero p-6 text-primary-foreground shadow-elegant animate-fade-up">
           <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-40" style={{ background: "var(--primary-glow)" }} />
