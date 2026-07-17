@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { TopBar } from "@/components/app/TopBar";
+import { HardwareStatus } from "@/components/app/HardwareStatus";
+import { WaterFlow } from "@/components/app/WaterFlow";
 import { useFarm } from "@/lib/farm-store";
 import {
   Droplets, FlaskConical, Thermometer, Wind, Sun, Battery, Wifi, WifiOff,
