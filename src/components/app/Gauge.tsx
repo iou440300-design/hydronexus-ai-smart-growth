@@ -20,7 +20,7 @@ export function Gauge({
   max,
   label,
   unit = "",
-  size = 160,
+  size = 140,
   ideal,
   format,
   icon,
