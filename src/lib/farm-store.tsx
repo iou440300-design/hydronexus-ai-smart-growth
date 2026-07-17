@@ -281,14 +281,16 @@ export function FarmProvider({ children }: { children: ReactNode }) {
   }, [sensors]);
 
   const setDevice = (k: keyof DeviceState, v: boolean | number) => {
-    setDevices((prev) => ({ ...prev, [k]: v as never }));
+    setDevices((prev) => {
+      const nextDev = { ...prev, [k]: v as never };
+      // Auto Mode engages recovery actuators automatically
+      if (k === "autoMode" && v === true) {
+        nextDev.waterPump = true;
+        nextDev.fans = true;
+      }
+      return nextDev;
+    });
     HardwareService.setDevice(k, v);
-    // Auto mode auto-responds
-    if (k === "autoMode" && v === true && sensors.waterLevel < 40) {
-      setTimeout(() => {
-        setSensors((s) => ({ ...s, waterLevel: clamp(s.waterLevel + 40, 0, 100) }));
-      }, 1500);
-    }
   };
 
   const runScenario = (s: Scenario) => {
