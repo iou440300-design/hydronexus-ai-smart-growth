@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/app/TopBar";
 import { Gauge } from "@/components/app/Gauge";
 import { useFarm } from "@/lib/farm-store";
+import { WaterFlow } from "@/components/app/WaterFlow";
 import { Droplets, FlaskConical, Zap, Thermometer, Wind, Sun, Sparkles, Waves, Power } from "lucide-react";
 
 export const Route = createFileRoute("/app/sensors")({
