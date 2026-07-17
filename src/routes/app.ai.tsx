@@ -174,3 +174,80 @@ function generateReply(q: string, s: ReturnType<typeof useFarm>["sensors"], crop
   if (lower.includes("pest")) return `No pest signatures detected in latest AI camera scan. Continue weekly inspections; whitefly risk rises after rainy spells in southern Nigeria.`;
   return `I'm analysing your ${crop} farm now. Sensors are nominal (pH ${s.ph.toFixed(2)}, EC ${s.ec.toFixed(2)}, Air ${s.airTemp.toFixed(1)}°C). Anything specific you'd like me to check?`;
 }
+
+function IntelligenceGrid({ growthPct, daysLeft, crop }: { growthPct: number; daysLeft: number; crop: (typeof crops)[number] }) {
+  const { sensors, devices, farmHealth } = useFarm();
+  const data = useMemo(() => {
+    const confidence = Math.round(
+      Math.min(99, 60 + farmHealth * 0.35 + (devices.internet ? 4 : 0) + (sensors.ph > 0 ? 2 : -20))
+    );
+    const growthScore = Math.round(Math.min(100, growthPct * 0.6 + farmHealth * 0.4));
+    const yieldBase = parseFloat(crop.yield) || 12;
+    const yieldEst = (yieldBase * (0.7 + (farmHealth / 100) * 0.5)).toFixed(1);
+    const disease =
+      sensors.humidity > 80 || sensors.airTemp > 32 ? { label: "Elevated", c: "var(--warning)" }
+        : farmHealth < 60 ? { label: "Moderate", c: "var(--warning)" }
+        : { label: "Low", c: "var(--success)" };
+    const nutrient =
+      sensors.ec < 1.2 ? "Dose A+B 10 ml — EC low"
+        : sensors.ec > 2.4 ? "Dilute reservoir with 5 L water"
+        : "Nutrient profile optimal";
+    const water =
+      sensors.waterLevel < 40 ? "Refill 40 L to reach 90%"
+        : "Reservoir healthy · no action";
+    const energy =
+      devices.solar
+        ? `Solar covering ${Math.round(60 + Math.random() * 30)}% of load`
+        : "Switch to grid inverter — solar offline";
+    const next =
+      devices.autoMode ? "Auto irrigation · 06:00" : "Manual review · 18:00";
+    return { confidence, growthScore, yieldEst, disease, nutrient, water, energy, next };
+  }, [sensors, devices, farmHealth, growthPct, crop]);
+
+  const items = [
+    { icon: <Brain className="h-4 w-4" />, label: "AI Confidence", value: `${data.confidence}%`, tint: "var(--primary-glow)" },
+    { icon: <Leaf className="h-4 w-4" />, label: "Growth Score", value: `${data.growthScore}/100`, tint: "var(--success)" },
+    { icon: <Calendar className="h-4 w-4" />, label: "Harvest In", value: `${daysLeft} d`, tint: "var(--gold)" },
+    { icon: <Scale className="h-4 w-4" />, label: "Yield Forecast", value: `${data.yieldEst} kg`, tint: "var(--chart-4)" },
+    { icon: <ShieldCheck className="h-4 w-4" />, label: "Disease Risk", value: data.disease.label, tint: data.disease.c },
+    { icon: <Activity className="h-4 w-4" />, label: "Next Activity", value: data.next, tint: "var(--primary)" },
+  ];
+  const recs = [
+    { icon: <FlaskConical className="h-4 w-4" />, label: "Nutrient", body: data.nutrient, tint: "var(--gold)" },
+    { icon: <Droplets className="h-4 w-4" />, label: "Water", body: data.water, tint: "var(--chart-4)" },
+    { icon: <Zap className="h-4 w-4" />, label: "Energy", body: data.energy, tint: "var(--warning)" },
+  ];
+
+  return (
+    <section className="space-y-3 animate-fade-up">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">AI Intelligence</h2>
+        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full" style={{ background: "color-mix(in oklab, var(--primary-glow) 15%, transparent)", color: "var(--primary)" }}>
+          <Clock className="inline h-3 w-3 mr-1" /> Live
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        {items.map((it) => (
+          <div key={it.label} className="rounded-2xl bg-card border border-border/60 p-3 shadow-card-soft animate-pop-in">
+            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+              <span className="h-6 w-6 rounded-lg grid place-items-center" style={{ background: `color-mix(in oklab, ${it.tint} 15%, transparent)`, color: it.tint }}>{it.icon}</span>
+              {it.label}
+            </div>
+            <div className="mt-1.5 text-base font-bold tabular-nums truncate">{it.value}</div>
+          </div>
+        ))}
+      </div>
+      <div className="space-y-2">
+        {recs.map((r) => (
+          <div key={r.label} className="rounded-2xl bg-card border border-border/60 p-3 shadow-card-soft flex items-center gap-3 animate-pop-in">
+            <span className="h-9 w-9 rounded-xl grid place-items-center shrink-0" style={{ background: `color-mix(in oklab, ${r.tint} 15%, transparent)`, color: r.tint }}>{r.icon}</span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">{r.label} Recommendation</p>
+              <p className="text-sm font-semibold truncate">{r.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
