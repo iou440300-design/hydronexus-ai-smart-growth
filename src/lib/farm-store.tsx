@@ -169,6 +169,18 @@ export function FarmProvider({ children }: { children: ReactNode }) {
           flow: clamp(prev.flow + jitter(0.1), 0, 5),
         };
 
+        // Realistic hardware behaviour: pump ON gradually refills reservoir; OFF stops flow & drains slowly.
+        const dev = devicesRef.current;
+        if (dev.waterPump) {
+          next.waterLevel = clamp(next.waterLevel + 0.9, 0, 100);
+          next.flow = clamp(2 + Math.random() * 0.8, 0, 5);
+        } else {
+          next.waterLevel = clamp(next.waterLevel - 0.15, 0, 100);
+          next.flow = clamp(next.flow * 0.4, 0, 5);
+        }
+        if (dev.nutrientPump) next.nutrient = clamp(next.nutrient + 0.6, 0, 100);
+        next.pump = dev.waterPump;
+
         const sc = scenarioRef.current;
         if (sc === "lowWater") next.waterLevel = clamp(next.waterLevel - 1.6, 0, 100);
         if (sc === "highPh") next.ph = clamp(next.ph + 0.08, 4, 9);
