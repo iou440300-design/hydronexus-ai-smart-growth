@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/app/TopBar";
 import { Gauge } from "@/components/app/Gauge";
 import { useFarm } from "@/lib/farm-store";
+import { WaterFlow } from "@/components/app/WaterFlow";
 import { Droplets, FlaskConical, Zap, Thermometer, Wind, Sun, Sparkles, Waves, Power } from "lucide-react";
 
 export const Route = createFileRoute("/app/sensors")({
@@ -39,11 +40,12 @@ function SensorsPage() {
           <div className={`h-12 w-12 rounded-2xl grid place-items-center ${devices.waterPump ? "bg-secondary text-primary" : "bg-muted text-muted-foreground"}`}>
             <Power className="h-5 w-5" />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold">Water Pump</p>
-            <p className="text-xs text-muted-foreground">{devices.waterPump ? "Running · 2.4 L/min" : "Idle · standby"}</p>
+            <p className="text-xs text-muted-foreground">{devices.waterPump ? `Running · ${sensors.flow.toFixed(2)} L/min` : "Idle · standby"}</p>
+            <div className="mt-1"><WaterFlow active={devices.waterPump} /></div>
           </div>
-          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${devices.waterPump ? "bg-[color-mix(in_oklab,var(--success)_15%,transparent)] text-[var(--success)]" : "bg-muted text-muted-foreground"}`}>
+          <span className={`text-xs font-semibold px-2 py-1 rounded-full shrink-0 ${devices.waterPump ? "bg-[color-mix(in_oklab,var(--success)_15%,transparent)] text-[var(--success)]" : "bg-muted text-muted-foreground"}`}>
             {devices.waterPump ? "ONLINE" : "OFFLINE"}
           </span>
         </div>

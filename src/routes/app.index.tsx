@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { TopBar } from "@/components/app/TopBar";
+import { HardwareStatus } from "@/components/app/HardwareStatus";
+import { WaterFlow } from "@/components/app/WaterFlow";
 import { useFarm } from "@/lib/farm-store";
 import {
   Droplets, FlaskConical, Thermometer, Wind, Sun, Battery, Wifi, WifiOff,
@@ -25,6 +27,8 @@ function Dashboard() {
     <div>
       <TopBar />
       <main className="px-4 space-y-5">
+        {/* Live hardware strip */}
+        <HardwareStatus />
         {/* Health hero */}
         <section className="relative overflow-hidden rounded-3xl bg-hero p-6 text-primary-foreground shadow-elegant animate-fade-up">
           <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-40" style={{ background: "var(--primary-glow)" }} />
@@ -54,8 +58,8 @@ function Dashboard() {
 
         {/* Tanks */}
         <section className="grid grid-cols-2 gap-3">
-          <TankCard label="Water Tank" value={sensors.waterLevel} accent="var(--chart-4)" icon={<Droplets className="h-4 w-4" />} />
-          <TankCard label="Nutrient Tank" value={sensors.nutrient} accent="var(--gold)" icon={<FlaskConical className="h-4 w-4" />} />
+          <TankCard label="Water Tank" value={sensors.waterLevel} accent="var(--chart-4)" icon={<Droplets className="h-4 w-4" />} extra={<WaterFlow active={devices.waterPump} label={`${sensors.flow.toFixed(1)} L/m`} />} />
+          <TankCard label="Nutrient Tank" value={sensors.nutrient} accent="var(--gold)" icon={<FlaskConical className="h-4 w-4" />} extra={<WaterFlow active={devices.nutrientPump} label="Dosing" />} />
         </section>
 
         {/* Systems */}
@@ -172,13 +176,14 @@ function MiniStat({ label, value, icon, accent }: { label: string; value: string
   );
 }
 
-function TankCard({ label, value, accent, icon }: { label: string; value: number; accent: string; icon: React.ReactNode }) {
+function TankCard({ label, value, accent, icon, extra }: { label: string; value: number; accent: string; icon: React.ReactNode; extra?: React.ReactNode }) {
   return (
     <div className="relative overflow-hidden rounded-3xl bg-card border border-border/60 p-4 shadow-card-soft h-36">
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {icon} {label}
       </div>
       <div className="mt-2 text-3xl font-bold tabular-nums">{value.toFixed(0)}<span className="text-lg text-muted-foreground">%</span></div>
+      {extra && <div className="relative mt-2 z-10">{extra}</div>}
       <div
         className="absolute bottom-0 left-0 right-0 transition-all duration-1000"
         style={{ height: `${value}%`, background: `linear-gradient(180deg, transparent 0%, color-mix(in oklab, ${accent} 30%, transparent) 100%)` }}

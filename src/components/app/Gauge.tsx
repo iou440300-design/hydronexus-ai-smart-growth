@@ -20,7 +20,7 @@ export function Gauge({
   max,
   label,
   unit = "",
-  size = 160,
+  size = 140,
   ideal,
   format,
   icon,
@@ -63,8 +63,8 @@ export function Gauge({
         {icon}
         <span>{label}</span>
       </div>
-      <div style={{ width: size, height: size / 2 + 12 }} className="relative">
-        <svg width={size} height={size / 2 + 12} viewBox={`0 0 ${size} ${size / 2 + 12}`}>
+      <div style={{ width: "100%", maxWidth: size, height: size / 2 + 12 }} className="relative mx-auto">
+        <svg width="100%" height={size / 2 + 12} viewBox={`0 0 ${size} ${size / 2 + 12}`} preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id={`g-${label}`} x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor={color} stopOpacity="0.6" />

@@ -149,6 +149,8 @@ export function FarmProvider({ children }: { children: ReactNode }) {
 
   const scenarioRef = useRef<Scenario>("healthy");
   scenarioRef.current = scenario;
+  const devicesRef = useRef<DeviceState>(devices);
+  devicesRef.current = devices;
 
   // Simulator tick
   useEffect(() => {
@@ -168,6 +170,18 @@ export function FarmProvider({ children }: { children: ReactNode }) {
           nutrient: clamp(prev.nutrient - 0.05 + jitter(0.4), 0, 100),
           flow: clamp(prev.flow + jitter(0.1), 0, 5),
         };
+
+        // Realistic hardware behaviour: pump ON gradually refills reservoir; OFF stops flow & drains slowly.
+        const dev = devicesRef.current;
+        if (dev.waterPump) {
+          next.waterLevel = clamp(next.waterLevel + 0.9, 0, 100);
+          next.flow = clamp(2 + Math.random() * 0.8, 0, 5);
+        } else {
+          next.waterLevel = clamp(next.waterLevel - 0.15, 0, 100);
+          next.flow = clamp(next.flow * 0.4, 0, 5);
+        }
+        if (dev.nutrientPump) next.nutrient = clamp(next.nutrient + 0.6, 0, 100);
+        next.pump = dev.waterPump;
 
         const sc = scenarioRef.current;
         if (sc === "lowWater") next.waterLevel = clamp(next.waterLevel - 1.6, 0, 100);
@@ -194,7 +208,11 @@ export function FarmProvider({ children }: { children: ReactNode }) {
           next.solar = true;
         }
         next.energyKwh = +(prev.energyKwh + 0.02 + Math.random() * 0.02).toFixed(2);
-        next.waterLiters = +(prev.waterLiters + 0.15 + Math.random() * 0.1).toFixed(2);
+        next.waterLiters = +(prev.waterLiters + (prev.waterPump ? 0.35 : 0.05) + Math.random() * 0.05).toFixed(2);
+        // Battery: solar recharges, actuators drain
+        const drain = (prev.waterPump ? 0.08 : 0) + (prev.nutrientPump ? 0.04 : 0) + (prev.lighting ? 0.05 : 0) + (prev.fans ? 0.03 : 0);
+        const charge = prev.solar ? 0.12 : 0;
+        next.battery = clamp(prev.battery + charge - drain, 0, 100);
         return next;
       });
 
@@ -263,14 +281,16 @@ export function FarmProvider({ children }: { children: ReactNode }) {
   }, [sensors]);
 
   const setDevice = (k: keyof DeviceState, v: boolean | number) => {
-    setDevices((prev) => ({ ...prev, [k]: v as never }));
+    setDevices((prev) => {
+      const nextDev = { ...prev, [k]: v as never };
+      // Auto Mode engages recovery actuators automatically
+      if (k === "autoMode" && v === true) {
+        nextDev.waterPump = true;
+        nextDev.fans = true;
+      }
+      return nextDev;
+    });
     HardwareService.setDevice(k, v);
-    // Auto mode auto-responds
-    if (k === "autoMode" && v === true && sensors.waterLevel < 40) {
-      setTimeout(() => {
-        setSensors((s) => ({ ...s, waterLevel: clamp(s.waterLevel + 40, 0, 100) }));
-      }, 1500);
-    }
   };
 
   const runScenario = (s: Scenario) => {
