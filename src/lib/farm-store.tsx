@@ -149,6 +149,8 @@ export function FarmProvider({ children }: { children: ReactNode }) {
 
   const scenarioRef = useRef<Scenario>("healthy");
   scenarioRef.current = scenario;
+  const devicesRef = useRef<DeviceState>(devices);
+  devicesRef.current = devices;
 
   // Simulator tick
   useEffect(() => {
