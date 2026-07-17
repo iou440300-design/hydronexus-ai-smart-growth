@@ -208,7 +208,11 @@ export function FarmProvider({ children }: { children: ReactNode }) {
           next.solar = true;
         }
         next.energyKwh = +(prev.energyKwh + 0.02 + Math.random() * 0.02).toFixed(2);
-        next.waterLiters = +(prev.waterLiters + 0.15 + Math.random() * 0.1).toFixed(2);
+        next.waterLiters = +(prev.waterLiters + (prev.waterPump ? 0.35 : 0.05) + Math.random() * 0.05).toFixed(2);
+        // Battery: solar recharges, actuators drain
+        const drain = (prev.waterPump ? 0.08 : 0) + (prev.nutrientPump ? 0.04 : 0) + (prev.lighting ? 0.05 : 0) + (prev.fans ? 0.03 : 0);
+        const charge = prev.solar ? 0.12 : 0;
+        next.battery = clamp(prev.battery + charge - drain, 0, 100);
         return next;
       });
 
